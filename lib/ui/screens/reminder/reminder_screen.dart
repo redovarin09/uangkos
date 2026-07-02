@@ -6,6 +6,7 @@ import 'package:uang_kos/models/reminder_config.dart';
 import 'package:uang_kos/providers/reminder_provider.dart';
 import 'package:uang_kos/providers/theme_provider.dart';
 import 'package:uang_kos/ui/screens/reminder/widgets/reminder_toggle_card.dart';
+import 'package:uang_kos/ui/screens/reminder/widgets/data_management_card.dart';
 
 class ReminderScreen extends ConsumerWidget {
   const ReminderScreen({super.key});
@@ -117,6 +118,15 @@ class ReminderScreen extends ConsumerWidget {
           onChanged: (m) =>
               ref.read(themeProvider.notifier).setTheme(m),
         ),
+
+        const SizedBox(height: 24),
+        Divider(color: cs.outline),
+        const SizedBox(height: 16),
+
+        // ── Section: Data ─────────────────────────
+        _SectionLabel(label: 'Data', tt: tt),
+        const SizedBox(height: 8),
+        const DataManagementCard(),
       ],
     );
   }

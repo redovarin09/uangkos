@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:uang_kos/core/constants/app_strings.dart';
+import 'package:uang_kos/models/payment.dart';
 import 'package:uang_kos/providers/payment_provider.dart';
+import 'package:uang_kos/services/pdf_export_service.dart';
 import 'package:uang_kos/ui/screens/history/widgets/payment_list_tile.dart';
 
 class HistoryScreen extends ConsumerWidget {
@@ -18,6 +21,13 @@ class HistoryScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(AppStrings.titleHistory),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.picture_as_pdf_outlined),
+            tooltip: 'Export PDF',
+            onPressed: payments.isEmpty
+                ? null
+                : () => _exportPdf(context, payments, selectedYear),
+          ),
           // ── Year filter dropdown ───────────────
           Padding(
             padding: const EdgeInsets.only(right: 8),
@@ -61,6 +71,29 @@ class HistoryScreen extends ConsumerWidget {
               itemBuilder: (_, i) =>
                   PaymentListTile(payment: payments[i]),
             ),
+    );
+  }
+}
+
+// ── Export PDF Handler ─────────────────────────────────────────────
+Future<void> _exportPdf(
+  BuildContext context,
+  List<Payment> payments,
+  int year,
+) async {
+  final messenger = ScaffoldMessenger.of(context);
+  try {
+    final file = await PdfExportService.generateYearlyReport(
+      payments: payments,
+      year: year,
+    );
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'Laporan Pembayaran Uang Kos Tahun $year',
+    );
+  } catch (e) {
+    messenger.showSnackBar(
+      SnackBar(content: Text('Gagal export PDF: $e')),
     );
   }
 }
