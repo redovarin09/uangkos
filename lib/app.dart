@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uang_kos/core/constants/app_strings.dart';
 import 'package:uang_kos/core/theme/app_theme.dart';
 import 'package:uang_kos/providers/theme_provider.dart';
-import 'package:uang_kos/ui/shared/app_scaffold.dart';
+import 'package:uang_kos/ui/shared/app_initializer.dart';
 
 class UangKosApp extends ConsumerWidget {
   const UangKosApp({super.key});
@@ -19,7 +19,7 @@ class UangKosApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: themeMode,
       locale: const Locale('id', 'ID'),
-      home: const AppScaffold(),
+      home: const AppInitializer(),
     );
   }
 }
