@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uang_kos/core/constants/app_strings.dart';
+import 'package:uang_kos/providers/theme_provider.dart';
 import 'package:uang_kos/ui/screens/dashboard/dashboard_screen.dart';
 import 'package:uang_kos/ui/screens/history/history_screen.dart';
 import 'package:uang_kos/ui/screens/reminder/reminder_screen.dart';
 
-class AppScaffold extends StatefulWidget {
+class AppScaffold extends ConsumerWidget {
   const AppScaffold({super.key});
 
-  @override
-  State<AppScaffold> createState() => _AppScaffoldState();
-}
-
-class _AppScaffoldState extends State<AppScaffold> {
-  int _currentIndex = 0;
-
-  final List<Widget> _screens = const [
+  static const List<Widget> _screens = [
     DashboardScreen(),
     HistoryScreen(),
     ReminderScreen(),
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentIndex = ref.watch(activeTabProvider);
+
     return Scaffold(
       body: IndexedStack(
-        index: _currentIndex,
+        index: currentIndex,
         children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
+        currentIndex: currentIndex,
+        onTap: (i) => ref.read(activeTabProvider.notifier).state = i,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),

@@ -5,6 +5,7 @@ import 'package:uang_kos/core/utils/date_formatter.dart';
 import 'package:uang_kos/models/payment.dart';
 import 'package:uang_kos/providers/payment_provider.dart';
 import 'package:uang_kos/providers/reminder_provider.dart';
+import 'package:uang_kos/providers/theme_provider.dart';
 import 'package:uang_kos/ui/screens/dashboard/widgets/countdown_card.dart';
 import 'package:uang_kos/ui/screens/dashboard/widgets/status_card.dart';
 import 'package:uang_kos/ui/screens/dashboard/widgets/yearly_summary_card.dart';
@@ -31,13 +32,15 @@ class DashboardScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(DateFormatter.monthYear(now)),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(
+        actions: [
+          IconButton(
+            icon: const Icon(
               Icons.account_balance_wallet_rounded,
               color: AppColors.primary,
             ),
+            tooltip: 'Lihat Riwayat',
+            onPressed: () =>
+                ref.read(activeTabProvider.notifier).state = 1,
           ),
         ],
       ),

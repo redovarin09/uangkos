@@ -30,3 +30,6 @@ final themeProvider =
     StateNotifierProvider<ThemeNotifier, ThemeMode>(
   (_) => ThemeNotifier(),
 );
+
+// ── Active bottom nav tab index ───────────────────────────────────
+final activeTabProvider = StateProvider<int>((_) => 0);

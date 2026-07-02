@@ -7,14 +7,20 @@ class ReminderNotifier extends AsyncNotifier<ReminderConfig> {
   @override
   Future<ReminderConfig> build() => ReminderService.load();
 
-  /// Simpan config + reschedule semua notifikasi
+  /// Simpan config dulu & update UI segera.
+  /// Scheduling notifikasi bersifat best-effort — kalau gagal
+  /// (mis. permission exact alarm ditolak), config tetap tersimpan.
   Future<void> save(ReminderConfig config) async {
     await ReminderService.save(config);
-    await NotificationService.scheduleReminders(config);
     state = AsyncData(config);
+
+    try {
+      await NotificationService.scheduleReminders(config);
+    } catch (_) {
+      // Gagal jadwalkan notifikasi — tidak fatal, config sudah aman
+    }
   }
 
-  /// Toggle aktif/nonaktif tanpa ubah setting lain
   Future<void> toggleEnabled(bool value) async {
     final current = state.value;
     if (current == null) return;
