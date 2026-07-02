@@ -1,0 +1,42 @@
+name: uang_kos
+description: Aplikasi pencatat uang kos bulanan untuk anak kos Indonesia.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management (manual provider, tanpa generator)
+  flutter_riverpod: ^2.5.1
+
+  # Local Database (manual adapter, tanpa generator)
+  hive_ce: ^2.6.0
+  hive_ce_flutter: ^2.2.0
+  path_provider: ^2.1.4
+
+  # Simple config storage
+  shared_preferences: ^2.3.0
+
+  # Notifications
+  flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.4
+
+  # Formatting
+  intl: ^0.19.0
+  google_fonts: ^6.2.1
+
+  # Permissions
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  # Tidak ada build_runner, tidak ada generator
+
+flutter:
+  uses-material-design: true
